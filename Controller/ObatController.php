@@ -19,10 +19,13 @@ class ObatController
 
     public function index()
     {
-        $obat = Obat::query()
-        ->select('id_obat','nama_obat')
-        ->get();
-        View::render('obat/obat', ['obat'=>$obat],'layout');
+        View::render('dashboard',[],'navbar/navbar');
+    }
+
+    public function obat()
+    {
+        $obat = Obat::all();
+        View::render('obat/obat',['obat'=>$obat],'navbar/navbar');
     }
 
     public function getUsers()

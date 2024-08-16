@@ -39,6 +39,9 @@ CORSMiddleware::handle();
 $route->get('/', function() use ($obatController){
     $obatController->index();
 });
+$route->get('/obat', function() use ($obatController){
+    $obatController->obat();
+});
 // Authentication
 $route->get('/login', function(){
     View::render('login');
