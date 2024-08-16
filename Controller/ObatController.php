@@ -8,6 +8,7 @@ use Support\Crypto;
 use Support\UUID;
 use Support\DataTables;
 use Model\Obat;
+use Model\Stock;
 
 class ObatController
 {
@@ -24,8 +25,20 @@ class ObatController
 
     public function obat()
     {
-        $obat = Obat::all();
-        View::render('obat/obat',['obat'=>$obat],'navbar/navbar');
+        $title = 'Data Obat';
+        if(Request::isAjax()){
+            $obat = Obat::query()
+            ->select('tb_obat.id_obat','tb_obat.nama_obat','tb_obat.keluhan','tb_stock.stock','tb_obat.jenis','tb_obat.dosis','tb_obat.factory','tb_obat.foto')
+            ->join('tb_stock','tb_stock.id_obat','=','tb_obat.id_obat')
+            ->get();
+            return DataTables::of($obat)->make(true);
+        }
+        View::render('obat/obat',['title'=>$title],'navbar/navbar');
+    }
+
+    public function getObat()
+    {
+        
     }
 
     public function getUsers()

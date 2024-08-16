@@ -13,7 +13,8 @@ use Support\Crypto;
 use Support\UUID;
 use Controller\UserController;
 use Controller\ObatController;
-use Model\UserModel;
+use Controller\PemakaianController;
+// use Model\UserModel;
 $envFile = __DIR__ . '/.env';
 $env = parse_ini_file($envFile);
 
@@ -27,6 +28,7 @@ $request = new Request();
 $route = new Route($prefix);
 $userController = new UserController();
 $obatController = new ObatController();
+$pemakaianController = new PemakaianController();
 
 $rateLimiter = new RateLimiter();
 if (!$rateLimiter->check($_SERVER['REMOTE_ADDR'])) {
@@ -36,11 +38,20 @@ if (!$rateLimiter->check($_SERVER['REMOTE_ADDR'])) {
 }
 CORSMiddleware::handle();
 
-$route->get('/', function() use ($obatController){
+$route->get('/', function(){
+    View::render('auth/login');
+});
+$route->get('/home', function() use ($obatController){
     $obatController->index();
 });
 $route->get('/obat', function() use ($obatController){
     $obatController->obat();
+});
+$route->get('/pemakaian-obat', function() use ($pemakaianController){
+    $pemakaianController->pemakaian();
+});
+$route->get('/getobat', function() use ($obatController){
+    $obatController->getObat();
 });
 // Authentication
 $route->get('/login', function(){
@@ -62,9 +73,9 @@ $route->get('/user', function() use ($userController) {
     AuthMiddleware::checkLogin(); //<-- Cara pemanggilannya
     $userController->index();
 });
-$route->get('/user/getUsers', function() use ($userController){
-    $userController->getUsers();
-});
+// $route->get('/user/getUsers', function() use ($userController){
+//     $userController->getUsers();
+// });
 $route->get('/api/user', function() use ($userController) {
     AuthMiddleware::checkToken();
     $userController->userapi();
