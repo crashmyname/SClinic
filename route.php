@@ -14,6 +14,7 @@ use Support\UUID;
 use Controller\UserController;
 use Controller\ObatController;
 use Controller\PemakaianController;
+use Controller\ApiController;
 // use Model\UserModel;
 $envFile = __DIR__ . '/.env';
 $env = parse_ini_file($envFile);
@@ -29,6 +30,7 @@ $route = new Route($prefix);
 $userController = new UserController();
 $obatController = new ObatController();
 $pemakaianController = new PemakaianController();
+$apiController = new ApiController();
 
 $rateLimiter = new RateLimiter();
 if (!$rateLimiter->check($_SERVER['REMOTE_ADDR'])) {
@@ -61,10 +63,6 @@ $route->post('/login', function() use ($userController) {
     $request = new Request();
     $userController->login($request);
 });
-$route->post('/api/login', function() use ($userController) {
-    $request = new Request();
-    $userController->loginapi($request);
-});
 $route->get('/logout', function() use ($userController) {
     $userController->logout();
 });
@@ -72,13 +70,6 @@ $route->get('/logout', function() use ($userController) {
 $route->get('/user', function() use ($userController) {
     AuthMiddleware::checkLogin(); //<-- Cara pemanggilannya
     $userController->index();
-});
-// $route->get('/user/getUsers', function() use ($userController){
-//     $userController->getUsers();
-// });
-$route->get('/api/user', function() use ($userController) {
-    AuthMiddleware::checkToken();
-    $userController->userapi();
 });
 $route->get('/adduser', function() use ($userController){
     AuthMiddleware::checkLogin();
@@ -99,6 +90,22 @@ $route->post('/update', function() use ($userController, $request) {
 $route->get('/delete', function() use ($userController, $request) {
     $id = Crypto::decrypt($request->id);
     $userController->delete($id);
+});
+
+// ROUTE API DIBAWAH SINI BIAR RAPIH
+$route->get('/api/user', function() use ($userController) {
+    AuthMiddleware::checkToken();
+    $userController->userapi();
+});
+$route->post('/api/login', function() use ($userController) {
+    $request = new Request();
+    $userController->loginapi($request);
+});
+$route->post('/api/employee', function() use ($apiController, $request){
+    $apiController->namaemp($request);
+});
+$route->post('/api/sect', function() use ($apiController, $request){
+    $apiController->sectionemp($request);
 });
 
 // Menjalankan route
