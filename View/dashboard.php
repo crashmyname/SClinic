@@ -24,7 +24,7 @@
                                     <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
                                         <a href="p_obat">
                                             <h6 class="text-muted font-semibold">Total Obat</h6>
-                                            <h6 class="font-extrabold mb-0"></h6>
+                                            <h6 class="font-extrabold mb-0"><?= $obat;?></h6>
                                         </a>
                                     </div>
                                 </div>
@@ -44,7 +44,7 @@
                                     <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
                                         <a href="user">
                                             <h6 class="text-muted font-semibold">Total User</h6>
-                                            <h6 class="font-extrabold mb-0"></h6>
+                                            <h6 class="font-extrabold mb-0"><?= $user;?></h6>
                                         </a>
                                     </div>
                                 </div>
@@ -65,7 +65,7 @@
                                     <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
                                         <a href="max_keluhan">
                                             <h6 class="text-muted font-semibold">Keluhan</h6>
-                                            <h6 class="font-extrabold mb-0"></h6>
+                                            <h6 class="font-extrabold mb-0"><?= $pemakaian;?></h6>
                                         </a>
                                     </div>
                                 </div>
@@ -105,7 +105,7 @@
                                     <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
                                         <a href="max_obat">
                                             <h6 class="text-muted font-semibold">Pemakaian Obat</h6>
-                                            <h6 class="font-extrabold mb-0"></h6>
+                                            <h6 class="font-extrabold mb-0"><?= $pemakaian?></h6>
                                         </a>
                                     </div>
                                 </div>
@@ -124,7 +124,7 @@
                                     <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
                                         <a href="karyawan_istirahat">
                                             <h6 class="text-muted font-semibold">Data Emp Istirahat</h6>
-                                            <h6 class="font-extrabold mb-0"></h6>
+                                            <h6 class="font-extrabold mb-0"><?= $rest?></h6>
                                         </a>
                                     </div>
                                 </div>

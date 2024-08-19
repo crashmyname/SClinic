@@ -15,6 +15,7 @@ use Controller\UserController;
 use Controller\ObatController;
 use Controller\PemakaianController;
 use Controller\ApiController;
+use Controller\HomeController;
 // use Model\UserModel;
 $envFile = __DIR__ . '/.env';
 $env = parse_ini_file($envFile);
@@ -31,6 +32,7 @@ $userController = new UserController();
 $obatController = new ObatController();
 $pemakaianController = new PemakaianController();
 $apiController = new ApiController();
+$homeController = new HomeController();
 
 $rateLimiter = new RateLimiter();
 if (!$rateLimiter->check($_SERVER['REMOTE_ADDR'])) {
@@ -43,8 +45,8 @@ CORSMiddleware::handle();
 $route->get('/', function(){
     View::render('auth/login');
 });
-$route->get('/home', function() use ($obatController){
-    $obatController->index();
+$route->get('/home', function() use ($homeController){
+    $homeController->index();
 });
 $route->get('/obat', function() use ($obatController){
     $obatController->obat();

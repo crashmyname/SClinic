@@ -81,12 +81,18 @@ class BaseModel
 
     public function whereMonth($column, $month)
     {
-        return $this->where("MONTH({$column})", '=', $month);
+        // return $this->where("MONTH({$column})", '=', $month);
+        $this->whereConditions[] = "MONTH({$column}) = :month";
+        $this->whereParams[':month'] = $month;
+        return $this;
     }
 
     public function whereYear($column, $year)
     {
-        return $this->where("YEAR({$column})", '=', $year);
+        // return $this->where("YEAR({$column})", '=', $year);
+        $this->whereConditions[] = "YEAR({$column}) = :year";
+        $this->whereParams[':year'] = $year;
+        return $this;
     }
 
     public function join($table, $first, $operator, $second, $type = 'INNER')
@@ -172,6 +178,30 @@ class BaseModel
         $stmt->execute();
         $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return $data;
+    }
+
+    public function count()
+    {
+        $sql = "SELECT COUNT(*) as count FROM {$this->table}";
+
+        if (!empty($this->joins)) {
+            $sql .= ' ' . implode(' ', $this->joins);
+        }
+
+        if (!empty($this->whereConditions)) {
+            $sql .= ' WHERE ' . implode(' AND ', $this->whereConditions);
+        }
+
+        $stmt = $this->connection->prepare($sql);
+
+        foreach ($this->whereParams as $key => $value) {
+            $stmt->bindValue($key, $value);
+        }
+
+        $stmt->execute();
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $result['count'];
     }
 
     public function save()

@@ -5,7 +5,7 @@ use Support\BaseModel;
 
 class User extends BaseModel
 {
-    protected $table = 'users';
-    protected $primaryKey = 'user_id';
+    protected $table = 'tb_user';
+    protected $primaryKey = 'id_user';
 }
 ?>

@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # MVC Tanjidor ✨
 
 ## Struktur Folder
@@ -137,4 +136,4 @@ Terima gaji
 - [LinkedIn](https://www.linkedin.com/in/fadli-azka-prayogi-523879176/)
 =======
 # SClinic
->>>>>>> eba59095fd5f990e44b36c709c7105bca5f01a9e
+eba59095fd5f990e44b36c709c7105bca5f01a9e
