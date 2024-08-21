@@ -27,9 +27,12 @@ class UserController
 
     public function index()
     {
-        $user = $this->userModel->user();
-        // include __DIR__.'/../View/user.php'; <-- bisa menggunakan basic ini
-        View::render('user', ['user'=>$user],'layout'); //<-- View::render untuk mengembalikan ke halaman yang dituju misalnya user, dan membawa parameter $user untuk menampilkan data, layout untuk menampilkan navbar jika dibutuhkan
+        $title = "Data User";
+        if(Request::isAjax()){
+            $user = User::all();
+            return DataTables::of($user)->make(true);
+        }
+        View::render('user/user', ['title'=>$title],'navbar/navbar');
     }
 
     public function getUsers()

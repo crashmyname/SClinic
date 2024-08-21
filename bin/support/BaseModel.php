@@ -64,13 +64,21 @@ class BaseModel
 
     public function where($column, $operator = '=', $value = null)
     {
-        if ($value === null) {
-            $value = $operator;
-            $operator = '=';
+        if ($value === null || $value == '') {
+            if ($operator === '=') {
+                $operator = 'IS';
+            } elseif ($operator === '!=') {
+                $operator = 'IS NOT';
+            }
+            // Handle cases where the value is null, we use IS or IS NOT
+            $this->whereConditions[] = "{$column} {$operator} NULL";
+        } else {
+            // Generate unique placeholder for each where condition
+            $paramName = str_replace('.', '_', $column) . '_' . count($this->whereParams);
+            $this->whereConditions[] = "{$column} {$operator} :{$paramName}";
+            $this->whereParams[":{$paramName}"] = $value;
         }
-
-        $this->whereConditions[] = "{$column} {$operator} :{$column}";
-        $this->whereParams[":{$column}"] = $value;
+    
         return $this;
     }
 
@@ -95,9 +103,36 @@ class BaseModel
         return $this;
     }
 
-    public function join($table, $first, $operator, $second, $type = 'INNER')
+    public function innerJoin($table, $first, $operator, $second)
     {
-        $this->joins[] = "{$type} JOIN {$table} ON {$first} {$operator} {$second}";
+        return $this->join($table, $first, $operator, $second, 'INNER');
+    }
+
+    public function leftJoin($table, $first, $operator, $second)
+    {
+        return $this->join($table, $first, $operator, $second, 'LEFT');
+    }
+
+    public function rightJoin($table, $first, $operator, $second)
+    {
+        return $this->join($table, $first, $operator, $second, 'RIGHT');
+    }
+
+    public function outerJoin($table, $first, $operator, $second)
+    {
+        return $this->join($table, $first, $operator, $second, 'OUTER');
+    }
+
+    private function join($table, $first, $operator, $second, $type)
+    {
+        $validJoinTypes = ['INNER', 'LEFT', 'RIGHT', 'OUTER'];
+        
+        if (in_array(strtoupper($type), $validJoinTypes)) {
+            $this->joins[] = "{$type} JOIN {$table} ON {$first} {$operator} {$second}";
+        } else {
+            throw new \InvalidArgumentException("Invalid join type: {$type}");
+        }
+        
         return $this;
     }
 
@@ -161,6 +196,37 @@ class BaseModel
 
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function toSql()
+    {
+        $sql = "SELECT {$this->distinct} " . implode(', ', $this->selectColumns) . " FROM {$this->table}";
+
+        if (!empty($this->joins)) {
+            $sql .= ' ' . implode(' ', $this->joins);
+        }
+
+        if (!empty($this->whereConditions)) {
+            $sql .= ' WHERE ' . implode(' AND ', $this->whereConditions);
+        }
+
+        if (!empty($this->groupBy)) {
+            $sql .= ' GROUP BY ' . $this->groupBy;
+        }
+
+        if (!empty($this->orderBy)) {
+            $sql .= ' ORDER BY ' . implode(', ', $this->orderBy);
+        }
+
+        if ($this->limit !== null) {
+            $sql .= ' LIMIT ' . (int)$this->limit;
+        }
+
+        if ($this->offset !== null) {
+            $sql .= ' OFFSET ' . (int)$this->offset;
+        }
+
+        return $sql;
     }
 
     public function first()

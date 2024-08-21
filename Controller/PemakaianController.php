@@ -29,12 +29,15 @@ class PemakaianController
         $title = 'Data Pemakaian Obat';
         if(Request::isAjax()){
             $pemakaian = Pemakaian::query()
-            ->select('tb_pemakaian.nik','tb_pemakaian.nama','tb_pemakaian.kode_section','tb_pemakaian.keluhan','tb_pemakaian.jenis_obat','tb_obat.id_obat','tb_obat.nama_obat','tb_pemakaian.jumlah','tb_pemakaian.tgl_pemakaian')
-            ->join('tb_obat','tb_pemakaian.jenis_obat','=','tb_obat.id_obat')
+            ->select('tb_pemakaian.id_pemakaian','tb_pemakaian.nik','tb_pemakaian.nama','tb_pemakaian.kode_section','tb_pemakaian.keluhan','tb_pemakaian.jenis_obat','tb_obat.id_obat','tb_obat.nama_obat','tb_pemakaian.jumlah','tb_pemakaian.tgl_pemakaian')
+            ->leftJoin('tb_obat','tb_pemakaian.jenis_obat','=','tb_obat.id_obat')
+            ->where('tb_pemakaian.deleted_at','=','')
             ->get();
+            
             return DataTables::of($pemakaian)->make(true);
         }
-        View::render('pemakaian/pemakaian_obat',['title'=>$title],'navbar/navbar');
+        $count = Pemakaian::query()->count();
+        View::render('pemakaian/pemakaian_obat',['title'=>$title,'count'=>$count],'navbar/navbar');
     }
 
     public function getObat()

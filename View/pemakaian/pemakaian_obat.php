@@ -528,7 +528,7 @@
                     },
                     {
                         data: 'nama_obat',
-                        name: 'obat.nama_obat',
+                        name: 'nama_obat',
                         searchable: true
                     },
                     {
@@ -540,7 +540,7 @@
                         name: 'tgl_pemakaian'
                     },
                 ],
-                lengthMenu: [10, 25, 50, 100],
+                lengthMenu: [10, 25, 50, 100, <?= $count?>],
                 dom: 'Blfrtip',
                 // select: true,
                 buttons: [{

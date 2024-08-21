@@ -29,7 +29,7 @@ class ObatController
         if(Request::isAjax()){
             $obat = Obat::query()
             ->select('tb_obat.id_obat','tb_obat.nama_obat','tb_obat.keluhan','tb_stock.stock','tb_obat.jenis','tb_obat.dosis','tb_obat.factory','tb_obat.foto')
-            ->join('tb_stock','tb_stock.id_obat','=','tb_obat.id_obat')
+            ->leftJoin('tb_stock','tb_stock.id_obat','=','tb_obat.id_obat')
             ->get();
             return DataTables::of($obat)->make(true);
         }
