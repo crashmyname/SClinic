@@ -13,10 +13,12 @@ use Model\Pemakaian;
 
 class PemakaianController
 {
+    protected $pemakaianImport;
 
-    public function __construct()
+    public function __construct(Pemakaian $pemakaianImport)
     {
         $this->validator = new Validator();
+        $this->pemakaianImport = $pemakaianImport;
     }
 
     public function index()
@@ -40,8 +42,9 @@ class PemakaianController
         View::render('pemakaian/pemakaian_obat',['title'=>$title,'count'=>$count],'navbar/navbar');
     }
 
-    public function getObat()
+    public function importPemakaian($filepath)
     {
+        $this->pemakaianImport->importFromFile($filepath);
         
     }
 

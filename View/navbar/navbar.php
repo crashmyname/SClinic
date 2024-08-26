@@ -145,7 +145,7 @@
                                 <span>Data Pengambilan HW</span>
                             </a>
                         </li>
-                        <li class="sidebar-item has-sub ">
+                        <!-- <li class="sidebar-item has-sub ">
                             <a href="#" class='sidebar-link'>
                                 <i class="bi bi-folder-fill"></i>
                                 <span>Data Permintaan Obat</span>
@@ -164,7 +164,7 @@
                                     </a>
                                 </li>
                             </ul>
-                        </li>
+                        </li> -->
                         <li class="sidebar-item ">
                             <a href="<?= $_ENV['ROUTE_PREFIX'] ?>/pemakaian-obat" class='sidebar-link'>
                                 <i class="bi bi-file-earmark-medical"></i>

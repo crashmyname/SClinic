@@ -59,6 +59,9 @@ $route->get('/data-user', function() use ($userController){
 $route->get('/data-hw', function() use ($hwController){
     $hwController->hw();
 });
+$route->get('/data-mcu', function() use ($hwController){
+    $hwController->hw();
+});
 $route->get('/getobat', function() use ($obatController){
     $obatController->getObat();
 });
