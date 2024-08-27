@@ -13,12 +13,11 @@ use Model\Pemakaian;
 
 class PemakaianController
 {
-    protected $pemakaianImport;
 
-    public function __construct(Pemakaian $pemakaianImport)
+    public function __construct()
     {
         $this->validator = new Validator();
-        $this->pemakaianImport = $pemakaianImport;
+        $this->pemakaianModel = new Pemakaian();
     }
 
     public function index()
@@ -31,7 +30,7 @@ class PemakaianController
         $title = 'Data Pemakaian Obat';
         if(Request::isAjax()){
             $pemakaian = Pemakaian::query()
-            ->select('tb_pemakaian.id_pemakaian','tb_pemakaian.nik','tb_pemakaian.nama','tb_pemakaian.kode_section','tb_pemakaian.keluhan','tb_pemakaian.jenis_obat','tb_obat.id_obat','tb_obat.nama_obat','tb_pemakaian.jumlah','tb_pemakaian.tgl_pemakaian')
+            ->select('tb_pemakaian.id_pemakaian','tb_pemakaian.nik','tb_pemakaian.nama','tb_pemakaian.kode_section','tb_pemakaian.keluhan','tb_pemakaian.jenis_obat','tb_obat.id_obat','tb_obat.nama_obat','tb_pemakaian.jumlah','tb_pemakaian.tgl_pemakaian','tb_pemakaian.created_by','tb_pemakaian.created_at','tb_pemakaian.modify_by')
             ->leftJoin('tb_obat','tb_pemakaian.jenis_obat','=','tb_obat.id_obat')
             ->where('tb_pemakaian.deleted_at','=','')
             ->get();
@@ -44,8 +43,8 @@ class PemakaianController
 
     public function importPemakaian($filepath)
     {
-        $this->pemakaianImport->importFromFile($filepath);
-        
+        $this->pemakaianModel->importFromFile($filepath);
+
     }
 
     public function getUsers()

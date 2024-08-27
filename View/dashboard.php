@@ -161,10 +161,10 @@
                             </div>
                             <div class="ms-3 name">
                                 <h5 class="font-bold" style="text-transform:uppercase;">
-                                    hehe
+                                    <?= \Support\Session::user()->username?>
                                 </h5>
                                 <h6 class="text-muted mb-0">
-                                    test
+                                    <?= \Support\Session::user()->level?>
                                 </h6>
                             </div>
                         </div>

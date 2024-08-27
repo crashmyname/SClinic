@@ -2,6 +2,7 @@
 session_start();
 require_once __DIR__ . '/bin/support/Asset.php';
 require_once __DIR__ . '/bin/support/Prefix.php';
+require_once __DIR__ . '/bin/support/Rc.php';
 use Support\Request;
 use Support\Route;
 use Support\Validator;
@@ -11,6 +12,7 @@ use Support\CORSMiddleware;
 use Support\AuthMiddleware; //<-- Penambahan Middleware atau session login
 use Support\RateLimiter;
 use Support\Crypto;
+use Support\Session;
 use Support\UUID;
 use Controller\UserController;
 use Controller\ObatController;
@@ -19,6 +21,7 @@ use Controller\ApiController;
 use Controller\HomeController;
 use Controller\AlatController;
 use Controller\HwController;
+use Controller\McuController;
 
 $request = new Request();
 $route = new Route($prefix);
@@ -29,19 +32,26 @@ $apiController = new ApiController();
 $homeController = new HomeController();
 $alatController = new AlatController();
 $hwController = new HwController();
+$mcuController = new McuController();
 
-$rateLimiter = new RateLimiter();
-if (!$rateLimiter->check($_SERVER['REMOTE_ADDR'])) {
-    http_response_code(429);
-    View::render('errors/429',[]);
-    exit();
-}
-CORSMiddleware::handle();
+handleMiddleware();
 
+// Authentication
 $route->get('/', function(){
     View::render('auth/login');
 });
+$route->get('/login', function(){
+    View::render('auth/login');
+});
+$route->post('/login', function() use ($homeController,$request) {
+    $homeController->onLogin($request);
+});
+$route->post('/logout', function() use ($homeController) {
+    $homeController->logout();
+});
+// HOME
 $route->get('/home', function() use ($homeController){
+    AuthMiddleware::checkLogin();
     $homeController->index();
 });
 $route->get('/obat', function() use ($obatController){
@@ -59,23 +69,13 @@ $route->get('/data-user', function() use ($userController){
 $route->get('/data-hw', function() use ($hwController){
     $hwController->hw();
 });
-$route->get('/data-mcu', function() use ($hwController){
-    $hwController->hw();
+$route->get('/data-mcu', function() use ($mcuController){
+    $mcuController->mcu();
 });
 $route->get('/getobat', function() use ($obatController){
     $obatController->getObat();
 });
-// Authentication
-$route->get('/login', function(){
-    View::render('login');
-});
-$route->post('/login', function() use ($userController) {
-    $request = new Request();
-    $userController->login($request);
-});
-$route->get('/logout', function() use ($userController) {
-    $userController->logout();
-});
+
 // User
 $route->get('/user', function() use ($userController) {
     AuthMiddleware::checkLogin(); //<-- Cara pemanggilannya

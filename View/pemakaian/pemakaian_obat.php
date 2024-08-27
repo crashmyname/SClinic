@@ -782,7 +782,7 @@
                             '<tr>' + '<td>' + 'Created' + '</td>' + '<td>' + ':' + '</td>' +
                             '<td class="form-control">' + data.created_by + '</td>' + '</tr>' +
                             '<tr>' + '<td>' + 'Updated' + '</td>' + '<td>' + ':' + '</td>' +
-                            '<td class="form-control">' + data.updated_by + '</td>' + '</tr>' +
+                            '<td class="form-control">' + data.modify_by + '</td>' + '</tr>' +
                             '<tr>' + '<td>' + 'Created at' + '</td>' + '<td>' + ':' + '</td>' +
                             '<td class="form-control">' + formattedCreatedAt + '</td>' + '</tr>';
                     });

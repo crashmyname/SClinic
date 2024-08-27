@@ -90,7 +90,6 @@
                                     <th>NIK</th>
                                     <th>No Rekam Medis</th>
                                     <th>Nama Karyawan</th>
-                                    {{-- <th>Section</th> --}}
                                     <th>Factory</th>
                                     <th>Tanggal Pemeriksaan</th>
                                     <th>Status Gizi</th>

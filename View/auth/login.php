@@ -211,13 +211,13 @@
                             <label class="label" for="emailAddress"><img src="https://i.imgur.com/Hn13wvm.png"
                                     class="labelIcon"><span>Username*</span></label>
                             <input type="text" class="input" id="empId" placeholder="Enter your Username"
-                                name="user">
+                                name="username">
                         </div>
                         <div class="inputContainer">
                             <label class="label" for="emailAddress"><img src="https://i.imgur.com/g5SvdfG.png"
                                     class="labelIcon"><span>Password*</span></label>
                             <input type="password" class="input" id="PassId" placeholder="Enter your Password"
-                                name="pass">
+                                name="password">
                         </div>
                         <div class="OptionsContainer">
                             <a href="#" class="ForgotPasswordLink">Forgot Password?</a>

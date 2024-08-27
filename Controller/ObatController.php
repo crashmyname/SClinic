@@ -7,6 +7,7 @@ use Support\CSRFToken;
 use Support\Crypto;
 use Support\UUID;
 use Support\DataTables;
+use Support\Session;
 use Model\Obat;
 use Model\Stock;
 
@@ -36,9 +37,30 @@ class ObatController
         View::render('obat/obat',['title'=>$title],'navbar/navbar');
     }
 
-    public function getObat()
+    public function addObat(Request $request)
     {
-        
+        $nama_obat = $request->nama_obat;
+        $keluhan = $request->keluhan;
+        $dosis = $request->dosis;
+        $jenis = $request->jenis;
+        $fact = $request->factory;
+        $foto = $request->file('foto');
+        $path = asset('obat');
+        if(!file_exists($path)){
+            mkdir($path,0777,true);
+        }
+        $file = move_uploaded_file($foto);
+        Obat::create([
+            'nama_obat' => $request->nama_obat,
+            'jenis' => $request->jenis,
+            'keluhan' => $request->keluhan,
+            'dosis' => $request->dosis,
+            'factory' => $request->factory,
+            'foto' => $request->getClientOriginalName('foto'),
+            'created_by' => Session::user()->nama_user,
+            'modify_by' => Session::user()->nama_user,
+        ]);
+        return response()->json(['status'=>200]);
     }
 
     public function getUsers()

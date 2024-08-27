@@ -30,7 +30,8 @@
             }
         })
     </script> -->
-
+    <?php $user = Support\Session::get('user');
+     echo $user['username']?>
     <style>
         .dataTables_wrapper {
             font-family: tahoma;
@@ -228,8 +229,8 @@
                                 <i class="bi bi-box-arrow-right"></i>
                                 <span>Logout</span>
                             </a>
-                            <form action="<?= 'logout' ?>" id="logout" method="post">
-                                @csrf
+                            <form action="<?= $_ENV['ROUTE_PREFIX']?>/logout" id="logout" method="post">
+                                
                             </form>
                         </li>
                     </ul>
