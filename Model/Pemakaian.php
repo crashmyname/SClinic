@@ -7,7 +7,7 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 
 class Pemakaian extends BaseModel
 {
-    protected $table = 'tb_pemakaian';
+    public $table = 'tb_pemakaian';
     protected $primaryKey = 'id_pemakaian';
 
     public function importFromFile(Request $request, $filepath)

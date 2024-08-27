@@ -15,6 +15,8 @@ use Model\User;
 use Model\Pemakaian;
 use Model\RestEmp;
 use Model\Stock;
+use Model\Mcu;
+use Model\Alat;
 
 class HomeController
 {
@@ -38,7 +40,9 @@ class HomeController
                     ->whereMonth('tb_rest_emp.tgl_rest',Date::Month())
                     ->whereYear('tb_rest_emp.tgl_rest',Date::Year())
                     ->count();
-        View::render('dashboard',['obat'=>$obat,'user'=>$user,'pemakaian'=>$pemakaian,'rest'=>$rest],'navbar/navbar');
+        $mcu = Mcu::query()->count();
+        $alat = Alat::query()->count();
+        View::render('dashboard',['obat'=>$obat,'user'=>$user,'pemakaian'=>$pemakaian,'rest'=>$rest,'mcu'=>$mcu,'alat'=>$alat],'navbar/navbar');
     }
 
     public function onLogin(Request $request)

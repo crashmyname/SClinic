@@ -83,9 +83,9 @@
                                         </div>
                                     </div>
                                     <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
-                                        <a href="data_alat">
+                                        <a href="data-alat">
                                             <h6 class="text-muted font-semibold">Alat</h6>
-                                            <h6 class="font-extrabold mb-0"></h6>
+                                            <h6 class="font-extrabold mb-0"><?= $alat?></h6>
                                         </a>
                                     </div>
                                 </div>
@@ -141,9 +141,9 @@
                                         </div>
                                     </div>
                                     <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
-                                        <a href="('data-mcu')">
+                                        <a href="<?= $_ENV['ROUTE_PREFIX']?>/data-mcu">
                                             <h6 class="text-muted font-semibold">Data MCU</h6>
-                                            <h6 class="font-extrabold mb-0"></h6>
+                                            <h6 class="font-extrabold mb-0"> <?= $mcu?></h6>
                                         </a>
                                     </div>
                                 </div>
