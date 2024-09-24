@@ -49,13 +49,23 @@ $route->post('/login', function() use ($homeController,$request) {
 $route->post('/logout', function() use ($homeController) {
     $homeController->logout();
 });
+
+$route->get('/testi', function() use ($pemakaianController){
+    $pemakaianController->test();
+});
+
 // HOME
 $route->get('/home', function() use ($homeController){
     AuthMiddleware::checkLogin();
     $homeController->index();
 });
+
+// OBAT
 $route->get('/obat', function() use ($obatController){
     $obatController->obat();
+});
+$route->post('/obat', function() use ($obatController, $request){
+    $obatController->addObat($request);
 });
 $route->get('/pemakaian-obat', function() use ($pemakaianController){
     $pemakaianController->pemakaian();

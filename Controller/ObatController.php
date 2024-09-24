@@ -8,6 +8,7 @@ use Support\Crypto;
 use Support\UUID;
 use Support\DataTables;
 use Support\Session;
+use Support\Response;
 use Model\Obat;
 use Model\Stock;
 
@@ -39,28 +40,29 @@ class ObatController
 
     public function addObat(Request $request)
     {
-        $nama_obat = $request->nama_obat;
-        $keluhan = $request->keluhan;
-        $dosis = $request->dosis;
-        $jenis = $request->jenis;
-        $fact = $request->factory;
-        $foto = $request->file('foto');
-        $path = asset('obat');
+        $path = storage_path('obat');
         if(!file_exists($path)){
             mkdir($path,0777,true);
         }
-        $file = move_uploaded_file($foto);
-        Obat::create([
-            'nama_obat' => $request->nama_obat,
-            'jenis' => $request->jenis,
-            'keluhan' => $request->keluhan,
-            'dosis' => $request->dosis,
-            'factory' => $request->factory,
-            'foto' => $request->getClientOriginalName('foto'),
-            'created_by' => Session::user()->nama_user,
-            'modify_by' => Session::user()->nama_user,
-        ]);
-        return response()->json(['status'=>200]);
+        $originalname = $request->getClientOriginalName('foto');
+        $tempPath = $request->getPath('foto');
+        $destination = $path . '/' . $originalname;
+        if(move_uploaded_file($tempPath, $destination)){
+            Obat::create([
+                'nama_obat' => $request->nama_obat,
+                'jenis' => $request->jenis,
+                'keluhan' => $request->keluhan,
+                'dosis' => $request->dosis,
+                'factory' => $request->factory,
+                'foto' => $request->getClientOriginalName('foto'),
+                'created_by' => Session::user()->nama_user,
+                'modify_by' => Session::user()->nama_user,
+            ]);
+            return Response::json(['status'=>200,'message'=>'Berhasil']);
+            // return Response::success('Obat berhasil ditambahkan.');
+        } else {
+            return response()->json(['status' => 500, 'message' => 'Failed to upload file.']);
+        }
     }
 
     public function getUsers()

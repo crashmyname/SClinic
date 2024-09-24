@@ -48,7 +48,8 @@ class View{
         if (!empty($flashData)) {
             $_SESSION['flash_data'] = $flashData;
         }
-        header("Location: $route");
+        $fullroute = $_ENV['ROUTE_PREFIX'].$route;
+        header("Location: $fullroute");
         exit();
     }
 }

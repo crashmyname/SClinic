@@ -1,5 +1,6 @@
 <?php
 namespace Controller;
+use Support\Response;
 use Support\Request;
 use Support\Validator;
 use Support\View;
@@ -10,6 +11,7 @@ use Support\DataTables;
 use Model\Obat;
 use Model\Stock;
 use Model\Pemakaian;
+use Model\User;
 
 class PemakaianController
 {
@@ -45,6 +47,12 @@ class PemakaianController
     {
         $this->pemakaianModel->importFromFile($filepath);
 
+    }
+
+    public function test()
+    {
+        $data = User::all(); 
+        return Response::json($data);
     }
 
     public function getUsers()

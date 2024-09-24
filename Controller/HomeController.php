@@ -60,17 +60,17 @@ class HomeController
                 'foto' => $user['foto']
             ]);
             // $_SESSION['username'] = $user->username;
-            View::redirectTo($_ENV['ROUTE_PREFIX'].'/home');
+            View::redirectTo('/home');
         } else {
             Session::set('error', 'Invalid Credentials');
-            View::redirectTo($_ENV['ROUTE_PREFIX'].'/login');
+            View::redirectTo('/login');
         }
     }
 
     public function logout()
     {
         Session::destroy();
-        View::redirectTo($_ENV['ROUTE_PREFIX'].'/login');
+        View::redirectTo('/login');
     }
 }
 ?>
